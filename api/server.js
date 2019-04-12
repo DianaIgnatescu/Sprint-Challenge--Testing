@@ -22,15 +22,15 @@ server.post('/games', (req, res) => {
     res.status(422).json({ errorMessage: 'Please provide required details.' });
   } else {
     db('games').insert({ title, genre, releaseYear })
-        .then(arrayOfIds => {
-          return db('games').where({ id: arrayOfIds[0] })
-        })
-        .then(arrayOfGames => {
-          res.status(201).json({ ...arrayOfGames[0] });
-        })
-        .catch(error => {
-          res.status(500).json({ errorMessage: 'The game could not be added.' });
-        });
+      .then(arrayOfIds => {
+        return db('games').where({ id: arrayOfIds[0] })
+      })
+      .then(arrayOfGames => {
+        res.status(201).json({ ...arrayOfGames[0] });
+      })
+      .catch(error => {
+        res.status(500).json({ errorMessage: 'The game could not be added.' });
+      });
   }
 });
 
