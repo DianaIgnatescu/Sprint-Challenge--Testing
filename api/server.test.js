@@ -55,4 +55,20 @@ describe('server', () => {
     });
   });
 
+  describe('DELETE, /games/:id', () => {
+    it('should return 200 OK when request successful', async () => {
+      const newGame = await request(server).post('/games').send({ title: 'Fortnite', genre: 'Battle Royale', releaseYear: 2017 });
+      const id = 1;
+      const response = await request(server).delete(`/games/${id}`).send(toString(id));
+
+      expect(response.status).toBe(200);
+    });
+    it('should return status code 404 Not Found when a game is not found for the provided id', async () => {
+      const id = 3;
+      const response = await request(server).delete(`/games/${id}`);
+
+      expect(response.status).toBe(404);
+    });
+  })
+
 });

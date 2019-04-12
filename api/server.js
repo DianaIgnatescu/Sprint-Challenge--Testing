@@ -34,4 +34,19 @@ server.post('/games', (req, res) => {
   }
 });
 
+server.delete('/games/:id', (req, res) => {
+  const { id } = req.params;
+  Games.remove(id)
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ message: 'The specified ID does not exist.' });
+      } else {
+        res.status(200).json({ message: `The ID ${id} has now been removed from the database.` });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ errorMessage: 'The game could not be removed.' });
+    });
+});
+
 module.exports = server;
