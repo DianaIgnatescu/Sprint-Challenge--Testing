@@ -33,7 +33,6 @@ describe('gamesModel', () => {
       const gamesList = await db('games');
 
       expect(gamesList).toHaveLength(5)
-      console.log(gamesList);
     })
   });
 });
