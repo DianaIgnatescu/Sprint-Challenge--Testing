@@ -35,4 +35,19 @@ describe('gamesModel', () => {
       expect(gamesList).toHaveLength(5)
     })
   });
+
+  describe('remove', () => {
+    it('should delete a given game by its ID', async () => {
+      const newGame = Games.insert({ title: 'Assassin\'s Creed: Origins', genre: 'Adventure', releaseYear: 2017 });
+      const newGame2 = Games.insert({ title: 'The Sims 4', genre: 'Simulation', releaseYear: 2014 });
+      const result = await Games.remove(1);
+      const row = await db('games');
+      expect(row).toHaveLength(1);
+    });
+    it('should return 0 if given game ID could not be found', async () => {
+      const expected = 0;
+      const actual = await Games.remove(11);
+      expect(actual).toEqual(expected);
+    });
+  });
 });
