@@ -56,6 +56,9 @@ describe('server', () => {
   });
 
   describe('DELETE, /games/:id', () => {
+    afterEach(async () => {
+      await db('games').truncate();
+    });
     it('should return 200 OK when request successful', async () => {
       const newGame = await request(server).post('/games').send({ title: 'Fortnite', genre: 'Battle Royale', releaseYear: 2017 });
       const id = 1;
@@ -69,6 +72,6 @@ describe('server', () => {
 
       expect(response.status).toBe(404);
     });
-  })
-
+  });
 });
+

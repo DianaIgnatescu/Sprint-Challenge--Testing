@@ -49,4 +49,19 @@ server.delete('/games/:id', (req, res) => {
     });
 });
 
+server.get('/games/:id', (req, res) => {
+  const { id } = req.params;
+  Games.getById(id)
+    .then((game) => {
+      if (!game) {
+        res.status(404).json({ message: 'The game with the specified ID does not exist.'});
+      } else {
+        res.status(200).json(game);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'The game information could not be retrieved.'});
+    });
+});
+
 module.exports = server;
