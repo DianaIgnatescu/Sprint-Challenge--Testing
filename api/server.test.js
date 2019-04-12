@@ -1,5 +1,6 @@
 const request = require('supertest');
 const server = require('./server');
+const db = require('../data/dbConfig.js');
 
 describe('server', () => {
   it('should set the testing environment', () => {
@@ -7,6 +8,9 @@ describe('server', () => {
   });
 
   describe('GET, /games', () => {
+    afterEach(async () => {
+      await db('games').truncate();
+    });
     it('should return a status code of 200 OK', async () => {
       const res = await request(server).get('/games');
       expect(res.status).toBe(200);
@@ -17,7 +21,7 @@ describe('server', () => {
     });
     it('should return the correct number of games stored in the database', async () => {
       const response = await request(server).get('/games');
-      expect(response.body.length).toBe(5);
+      expect(response.body.length).toBe(0);
     });
     it('should return JSON', async () => {
       const res = await request(server).get('/games');
@@ -26,6 +30,9 @@ describe('server', () => {
   });
 
   describe('POST, /games', () => {
+    afterEach(async () => {
+      await db('games').truncate();
+    });
     it('should return status code 422 if the information included inside the body is incorrect', async () => {
       const newGame = { name: 'God of War', genre: 'Action-adventure', releaseYear: 2018 };
       const response = await request(server).post('/games').send(newGame);
