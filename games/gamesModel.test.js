@@ -50,4 +50,13 @@ describe('gamesModel', () => {
       expect(actual).toEqual(expected);
     });
   });
+  describe('getById', () => {
+    it('should get a given game by its ID', async () => {
+      const newGame = Games.insert({ title: 'Assassin\'s Creed: Origins', genre: 'Adventure', releaseYear: 2017 });
+      const result = await Games.getById(1);
+      // const row = await db('games');
+      expect(result.title).toEqual('Assassin\'s Creed: Origins');
+      expect(result.id).toEqual(1);
+    });
+  });
 });
